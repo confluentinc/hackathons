@@ -25,7 +25,7 @@ schema_registry_client = SchemaRegistryClient(schema_registry_conf)
 reading_avro_serializer = AvroSerializer(
         schema_registry_client = schema_registry_client,
         schema_str = avro_helper.raspberry_pi_temperature_schema,
-        to_dict = avro_helper.RasbperryPiReading.raspberry_pi_reading_to_dict
+        to_dict = avro_helper.RaspberryPiReading.raspberry_pi_reading_to_dict
 )
 
 # set up Kafka producer
@@ -43,7 +43,7 @@ while True:
         cpu_temp = gz.CPUTemperature().temperature
     
         # send data to Kafka
-        reading = avro_helper.RasbperryPiReading(int(pi_id), round(cpu_temp, 3))
+        reading = avro_helper.RaspberryPiReading(int(pi_id), round(cpu_temp, 3))
 
         producer.produce(topic, key=pi_id, value=reading) 
         producer.poll()

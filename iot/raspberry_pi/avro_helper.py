@@ -75,7 +75,7 @@ raspberry_pi_reading_schema = """
 }
 """
 
-class RasbperryPiReading(object):
+class RaspberryPiReading(object):
     """Reading stores the deserialized Avro record for the Kafka key."""
     # Use __slots__ to explicitly declare all data members.
     __slots__ = [
@@ -89,14 +89,14 @@ class RasbperryPiReading(object):
 
     @staticmethod
     def dict_to_raspberry_pi_reading(obj, ctx):
-        return RasbperryPiReading(
+        return RaspberryPiReading(
                 obj['pi_id'],   
                 obj['temperature'],    
             )
 
     @staticmethod
     def raspberry_pi_reading_to_dict(reading, ctx):
-        return RasbperryPiReading.to_dict(reading)
+        return RaspberryPiReading.to_dict(reading)
 
     def to_dict(self):
         return dict(
