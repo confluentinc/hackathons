@@ -12,7 +12,11 @@ Two topics are required in order to get started with this demo.
 From the Confluent Cloud landing page, select the `Topics` tab on the left-hand side of the screen, then choose `Create topic`. Name the topic 'raspberry-pi-readings' and `Create with defaults`. Next, create another topic called 'raspberry-pi-metadata', but, this time, select `Show advanced settings`. Set the cleanup policy to compact. (This will ensure that our raspberry pi metadata topic will always keep at least one copy of a given key.)
 
 ### Accessing the Cluster
-To access the Kafka Cluster, we'll need an API Key and Secret. From the Confluent Cloud landing page, select `Data Integration->API Keys`. In the upper right hand corner, select Add key. Save the newly created Key and Secret for use on lines 6 and 7 of the provided `librdkafka.config` file.
+To access the Kafka Cluster, we'll need a bootstrap server, and an API Key and Secret.
+
+From the Confluent Cloud landing page, select `Cluster overview->Cluster settings`. Copy the `Bootstrap server` field and use it on line 1 of the provided `librdkafka.config` file.
+
+Then select `Data Integration->API Keys`. In the upper right hand corner, select `Add Key`. Follow the prompts to create a key and save the newly created Key and Secret for use on lines 6 and 7 of the provided `librdkafka.config` file.
 
 ### Schema Registry
 This demo pipeline makes use of Confluent Schema Registry. To enable Schema Registry, navigate to the Confluent Cloud Console and select `Schema Registry` from the lower left-hand corner. Continue by selecting `Set Up On My Own`. Then follow the prompts.
@@ -41,4 +45,43 @@ We have also provided some additional sql statements for use in a ksqlDB analysi
 ## Alerting
 Once the ksqlDB application is running, you can choose to set up a Telegram bot and send the alerts to your phone using a Kafka Connect HTTP Sink Connector. We have provided a sample Kafka Connect configuration that you may use to bring up a fully-managed Kafka Connect HTTP Sink Connector in Confluent Cloud. Note that you will have to [create your own Telegram bot](https://core.telegram.org/bots/api) in order to make use of this step.
 
-## Front End
+## Web Frontend
+
+Also included in this repo is a simple webserver and client to display readings in a webpage. Again, it should be a good starting point for a more fully-featured project.
+
+### Running The WebServer
+
+First set up a python environment:
+
+```sh
+cd webserver
+virtualenv env 
+source env/bin/activate
+pip install -r requirements.txt
+```
+
+Next edit `librdkafka.config` with the same values as the Raspberry Pi installation.
+
+Then run the webserver:
+
+```sh
+./webserver.py
+```
+
+## Web Client
+
+First install the required node packages:
+
+```sh
+cd webclient
+npm install
+```
+
+Then run the development frontend:
+
+```sh
+yarn start
+```
+
+This should automatically open a webpage that connects to the webserver and streams live readings.
+
