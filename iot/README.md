@@ -1,4 +1,4 @@
-# iot hackathons
+# iot hackathon
 This is boiler-plate code for a Raspberry Pi-based, temperature-monitoring IoT project. As is, the pipeline measures the temperature of Raspberry Pi and sends it to a Confluent Cloud Kafka Cluster.
 
 ## Confluent Cloud Set Up
@@ -15,7 +15,7 @@ To access the Kafka Cluster, we'll need at API Key and Secret. From the Confluen
 ### Schema Registry
 This demo pipeline makes use of Confluent Schema Registry. To enable Schema Registry, navigate to the Confluent Cloud Console and select Schema Registry from the lower left-hand corner. Continue by selecting Set up on my own. Then follow the prompts. 
 
-Once the Schema Registry has been set up, from the Schema Registry landing page, scroll down to the “API credentials” section. In order to access Schema Registry from a Raspberry Pi, you need to configure an API key and secret. Select the edit icon. Then select Create key and follow the prompt. Save the API Key and Secret for use on Line 15 of the provided librdkafka.config file.
+Once the Schema Registry has been set up, from the Schema Registry landing page, scroll down to the “API credentials” section. In order to access Schema Registry from a Raspberry Pi, you need to configure an API key and secret. Select the edit icon. Then select Create key and follow the prompt. Save the API Key and Secret for use on Line 15 of the provided librdkafka.config file. Also make note of the Schema Registry API endpoint.
 
 ## Raspberry Pi
 To run this demo pipeline, you'll obviously need a Raspberry Pi. It should be equipped with librdkafka as well as the confluent_kafka Python library.
@@ -27,12 +27,13 @@ To run this demo pipeline, you'll obviously need a Raspberry Pi. It should be eq
 * avro_helper.py: Assists with the serialization of objects.
 
 ### Running
-1. Clone this repository from the Raspberry Pi. Enter the API Keys and Secrets from above in the provided librdkafka.config file. 
+1. Clone this repository from the Raspberry Pi. Enter the API Keys, Secrets, and Schema Registry API Endpoint from above in the provided librdkafka.config file. 
+2. From the cluster landing page, select Cluster overview and then Cluster settings. Copy the bootstrap server and paste it on line 2 of the config file.
 2. Execute raspberry_pi_metadata.py to write a metadata message to Kafka and ensure that all configurations are correct. You should see a message in the Confluent Cloud Console. 
 3. Execute raspberry_pi_temperature_monitor.py to take readings every 5 seconds. Verify that the readings are making it to the Kafka cluster.
 
 ## ksqlDB Analysis
-We have also provided some additional sql statements for use in a ksqlDB analysis component of the pipeline. The statements load the readings and metadata datasets, enrich the with one another, and create alerting messages when the Raspberry Pi temperature is too high. To use, create a ksqlDB application on Confluent Cloud and execute the statements one by one.
+We have also provided some additional sql statements for use in a ksqlDB analysis component of the pipeline. The statements load the readings and metadata datasets, enrich them with one another, and create alerting messages when the Raspberry Pi temperature is too high. To use, create a ksqlDB application on Confluent Cloud and execute the statements one by one.
 
 ## Alerting
 Once the ksqlDB application is running, you can choose to set up a Telegram bot and send the alerts to your phone using a Kafka Connect HTTP Sink Connector. We have provided a sample Kafka Connect configuration that you may use to bring up a fully-managed Kafka Connect HTTP Sink Connector in Confluent Cloud. Note that you will have to [create your own Telegram bot](https://core.telegram.org/bots/api) in order to make use of this step.  
