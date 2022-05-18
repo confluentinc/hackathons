@@ -2,10 +2,11 @@ import argparse, sys
 from confluent_kafka import avro, KafkaError
 from confluent_kafka.admin import AdminClient, NewTopic
 from uuid import uuid4
+import certifi
 
 raspberry_pi_schema = """
 { 
-    "name": "raspberry-pi",
+    "name": "raspberrypi",
     "namespace": "com.hackathons.iot",
     "type": "record",
     "doc": "Raspberry Pi metadata.",
@@ -56,7 +57,7 @@ class RaspberryPi(object):
 
 raspberry_pi_reading_schema = """
 { 
-    "name": "raspberry-pi-reading",
+    "name": "reading",
     "namespace": "com.hackathons.iot",
     "type": "record",
     "doc": "Raspberry Pi measurements.",
@@ -114,6 +115,8 @@ def read_ccloud_config(config_file):
             if len(line) != 0 and line[0] != "#":
                 parameter, value = line.strip().split('=', 1)
                 conf[parameter] = value.strip()
+
+    conf['ssl.ca.location']=certifi.where()
     return conf
 
 

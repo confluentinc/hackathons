@@ -7,7 +7,7 @@ We'll be using a Confluent Cloud Kafka Cluster for this project. To begin, sign 
 ### Create Topics
 Two topics are required in order to get started with this demo.
 
-From the Confluent Cloud landing page, select the Topics tab on the left-hand side of the screen, then choose Create topic. Name the topic 'raspberry_pi_metadata' and Create with defaults. Do the same for another topic and call it 'raspberry-pi-readings'.
+From the Confluent Cloud landing page, select the Topics tab on the left-hand side of the screen, then choose Create topic. Name the topic 'raspberry-pi-readings' and Create with defaults. Next, create another topic called 'raspberry-pi-metadata', but, this time, select Show advanced settings. Set the cleanup policy to compact. (This will ensure that our raspberry pi metadata topic will always keep at least one copy of a given key.)
 
 ### Accessing the Cluster
 To access the Kafka Cluster, we'll need at API Key and Secret. From the Confluent Cloud landing page, select Data Integration and then API keys. In the upper right hand corner, select Add key. Save the newly created Key and Secret for use on lines 6 and 7 of the provided librdkafka.config file.

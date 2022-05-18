@@ -29,7 +29,7 @@ producer_conf = avro_helper.pop_schema_registry_params_from_config(conf)
 producer_conf['value.serializer'] = raspberry_pi_avro_serializer
 producer = SerializingProducer(producer_conf)
 
-topic = 'raspberry_pi_metadata'
+topic = 'raspberry-pi-metadata'
 
 # existing pis
 pis = {

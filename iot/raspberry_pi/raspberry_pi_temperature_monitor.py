@@ -24,7 +24,7 @@ schema_registry_client = SchemaRegistryClient(schema_registry_conf)
 
 reading_avro_serializer = AvroSerializer(
         schema_registry_client = schema_registry_client,
-        schema_str = avro_helper.raspberry_pi_temperature_schema,
+        schema_str = avro_helper.raspberry_pi_reading_schema,
         to_dict = avro_helper.RaspberryPiReading.raspberry_pi_reading_to_dict
 )
 
